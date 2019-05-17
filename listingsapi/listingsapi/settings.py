@@ -68,7 +68,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'listingsapi.wsgi.application'
 
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -106,3 +105,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LISTINGS_URL = 'http://grupozap-code-challenge.s3-website-us-east-1.amazonaws.com/sources/source-2.json'

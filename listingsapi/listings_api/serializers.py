@@ -19,11 +19,11 @@ class AddressSerializer(serializers.Serializer):
 
 
 class PricingInfosSerializer(serializers.Serializer):
-    yearlyIptu = serializers.CharField()
-    price = serializers.CharField()
+    yearlyIptu = serializers.CharField(required=False)
+    price = serializers.IntegerField()
     businessType = serializers.CharField()
-    monthlyCondoFee = serializers.CharField()
-
+    monthlyCondoFee = serializers.CharField(required=False)
+    
 
 class ListingsSerializer(serializers.Serializer):
     id = serializers.CharField()
@@ -32,7 +32,7 @@ class ListingsSerializer(serializers.Serializer):
     listingType = serializers.CharField()
     createdAt = serializers.DateTimeField()
     listingStatus = serializers.CharField()
-    parkingSpaces = serializers.IntegerField()
+    parkingSpaces = serializers.IntegerField(required=False)
     updatedAt = serializers.DateTimeField()
     owner = serializers.BooleanField()
     address = AddressSerializer()

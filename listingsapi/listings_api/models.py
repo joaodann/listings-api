@@ -2,8 +2,8 @@ import os
 import requests
 import json
 import datetime
+from django.conf import settings
 
-CACHED_LISTINGS_RESULT = None
 
 class Location:
     lon: float
@@ -22,7 +22,7 @@ class Address:
 
 
 class PricingInfos:
-    yearlyIptu: int
+    yearlyIptu: str
     price: int
     businessType: str
     monthlyCondoFee: int
@@ -49,7 +49,7 @@ class Listing():
     @staticmethod
     def get_all():
         listings = []
-        json_data = requests.get(os.environ['LISTINGS_URL']).text
+        json_data = requests.get(settings.LISTINGS_URL).text
         loaded_json = json.loads(json_data)
         for listing_json in loaded_json:
             listing = Listing(listing_json)
