@@ -23,7 +23,7 @@ class PricingInfosSerializer(serializers.Serializer):
     price = serializers.IntegerField()
     businessType = serializers.CharField()
     monthlyCondoFee = serializers.CharField(required=False)
-
+    
 
 class ListingsSerializer(serializers.Serializer):
     id = serializers.CharField()
