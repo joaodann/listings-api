@@ -15,3 +15,9 @@ shell:
 updaterequirements:
 	@echo Update requirements...
 	env/bin/pip3 install -r listingsapi/requirements.txt
+black:
+	@echo run black...
+	env/bin/black listingsapi --line-length 79
+flake8:
+	@echo run flake8...
+	env/bin/flake8 listingsapi

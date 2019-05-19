@@ -1,6 +1,7 @@
 from django.test import TestCase
 from listings_api import models
 
+
 def create_object_Listing_for_sale_with_price_500000():
     listing = models.Listing()
     listing.pricingInfos.price = 500000
@@ -9,6 +10,7 @@ def create_object_Listing_for_sale_with_price_500000():
     listing.address.geoLocation.location.lat = -23.566583
     listing.address.geoLocation.location.lon = -46.689920
     return listing
+
 
 def create_object_Listing_for_rental_with_price_1000():
     listing = models.Listing()
@@ -22,7 +24,7 @@ def create_object_Listing_for_rental_with_price_1000():
 
 
 class ModelTest(TestCase):
-    #square meter test
+    # square meter test
     def test_square_meter_price_with_usable_area(self):
         listing = create_object_Listing_for_sale_with_price_500000()
         self.assert_(listing.squareMeterPrice == 6250)
@@ -32,7 +34,7 @@ class ModelTest(TestCase):
         listing.usableAreas = 0
         self.assert_(listing.squareMeterPrice == 0)
 
-    #location inside grupo zap area
+    # location inside grupo zap area
     def test_location_inside_zap_group_area(self):
         listing = create_object_Listing_for_sale_with_price_500000()
         self.assert_(listing.isInsideZapGroupArea)
@@ -43,7 +45,7 @@ class ModelTest(TestCase):
         listing.address.geoLocation.location.lon = -46.864586
         self.assert_(not listing.isInsideZapGroupArea)
 
-    #viva real - condo fee rental percentage
+    # viva real - condo fee rental percentage
     def test_condo_fee_percentage_equals_30(self):
         listing = create_object_Listing_for_rental_with_price_1000()
         self.assert_(listing.monthlyCondoFeeRentalPercentage == 30)

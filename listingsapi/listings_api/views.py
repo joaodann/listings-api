@@ -8,11 +8,12 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import generics
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 def api_root(request, format=None):
-    return Response({
-       'listings': reverse('listings-view', request=request, format=format),
-    })
+    return Response(
+        {"listings": reverse("listings-view", request=request, format=format)}
+    )
 
 
 class ListingsView(generics.ListAPIView):
@@ -24,7 +25,7 @@ class ListingsView(generics.ListAPIView):
             cache.create_cache(Listing.get_all())
 
         listings = cache.use_cache()
-        portal = self.request.query_params.get('portal', None)
+        portal = self.request.query_params.get("portal", None)
         if portal == "zap":
             listings = filters.listings_zap_filter(listings)
         if portal == "vivareal":

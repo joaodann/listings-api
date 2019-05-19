@@ -1,4 +1,3 @@
-from listings_api.models import Listing
 from rest_framework import serializers
 
 
@@ -23,7 +22,7 @@ class PricingInfosSerializer(serializers.Serializer):
     price = serializers.IntegerField()
     businessType = serializers.CharField()
     monthlyCondoFee = serializers.CharField(required=False)
-    
+
 
 class ListingsSerializer(serializers.Serializer):
     id = serializers.CharField()

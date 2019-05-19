@@ -36,7 +36,7 @@ class PricingInfos:
     monthlyCondoFee: int
 
 
-class Listing():
+class Listing:
     usableAreas: int
     listingType: str
     createdAt: datetime
@@ -54,7 +54,7 @@ class Listing():
     @property
     def squareMeterPrice(self):
         price = 0
-        if (self.usableAreas > 0):
+        if self.usableAreas > 0:
             price = int(self.pricingInfos.price) / int(self.usableAreas)
 
         return price
@@ -62,19 +62,37 @@ class Listing():
     @property
     def monthlyCondoFeeRentalPercentage(self):
         percentage = 0
-        if (int(self.pricingInfos.monthlyCondoFee) > 0 and self.pricingInfos.businessType == "RENTAL"):
-            percentage = int(self.pricingInfos.monthlyCondoFee) * 100 / int(self.pricingInfos.price)
+        if (
+            int(self.pricingInfos.monthlyCondoFee) > 0
+            and self.pricingInfos.businessType == "RENTAL"
+        ):
+            percentage = (
+                int(self.pricingInfos.monthlyCondoFee)
+                * 100
+                / int(self.pricingInfos.price)
+            )
 
         return percentage
 
     @property
     def isInsideZapGroupArea(self):
         isInside = False
-        zapBoundingBox = box(float(settings.ZAP_BBOX_MIN_LATITUDE), float(settings.ZAP_BBOX_MIN_LONGITUDE),
-                             float(settings.ZAP_BBOX_MAX_LATITUDE), float(settings.ZAP_BBOX_MAX_LONGITUDE))
-        if (self.address.geoLocation.location.lat != 0 and self.address.geoLocation.location.lon != 0):
+        zapBoundingBox = box(
+            float(settings.ZAP_BBOX_MIN_LATITUDE),
+            float(settings.ZAP_BBOX_MIN_LONGITUDE),
+            float(settings.ZAP_BBOX_MAX_LATITUDE),
+            float(settings.ZAP_BBOX_MAX_LONGITUDE),
+        )
+        if (
+            self.address.geoLocation.location.lat != 0
+            and self.address.geoLocation.location.lon != 0
+        ):
             isInside = zapBoundingBox.contains(
-                Point(self.address.geoLocation.location.lat, self.address.geoLocation.location.lon))
+                Point(
+                    self.address.geoLocation.location.lat,
+                    self.address.geoLocation.location.lon,
+                )
+            )
 
         return isInside
 
