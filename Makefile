@@ -14,7 +14,7 @@ shell:
 	env/bin/python3 listingsapi/manage.py shell
 updaterequirements:
 	@echo Update requirements...
-	env/bin/pip3 install -r listingsapi/requirements.txt
+	env/bin/pip3 install -r requirements.txt
 black:
 	@echo run black...
 	env/bin/black listingsapi --line-length 79

@@ -4,3 +4,4 @@ prettyconf
 requests
 shapely
 black
+gunicorn
