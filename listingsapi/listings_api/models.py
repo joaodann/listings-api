@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+from collections import namedtuple
 import datetime
 from django.conf import settings
 
@@ -14,11 +15,17 @@ class GeoLocation:
     precision: str
     location: Location
 
+    def __init__(self):
+        location = Location()
+
 
 class Address:
     city: str
     neighborhood: str
     geoLocation: GeoLocation
+    
+    def __init__(self):
+        self.geoLocation = GeoLocation()
 
 
 class PricingInfos:
@@ -43,16 +50,23 @@ class Listing():
     bedrooms: int
     pricingInfos: PricingInfos
 
-    def __init__(self, data):
-        self.__dict__ = data
+    def __init__(self):
+        self.pricingInfos = PricingInfos()
+        self.address = Address()
+
+    @classmethod
+    def from_dict(cls, dict):
+        obj = cls()
+        obj.__dict__.update(dict)
+        return obj
 
     @staticmethod
     def get_all():
         listings = []
         json_data = requests.get(settings.LISTINGS_URL).text
-        loaded_json = json.loads(json_data)
+        loaded_json = json.loads(json_data, object_hook=Listing.from_dict)
         for listing_json in loaded_json:
-            listing = Listing(listing_json)
-            listings.append(listing)
+
+            listings.append(listing_json)
 
         return listings
