@@ -1,8 +1,12 @@
+ZAP_MAX_SALE_PRICE = 600000
+
+
 def listings_zap_filter(listings):
     zap_listings = remove_listings_without_location_filter(listings)
     zap_listings = [x for x in zap_listings if (int(x.pricingInfos.price) >= 3500
-                                            and x.pricingInfos.businessType == "RENTAL")
-                    or (int(x.pricingInfos.price) >= 600000
+                                                and x.pricingInfos.businessType == "RENTAL")
+                    or (((x.address.geoLocation.location.isInsideZapGroupArea and
+                        int(x.pricingInfos.price) >= ZAP_MAX_SALE_PRICE * 0.9) or int(x.pricingInfos.price) >= ZAP_MAX_SALE_PRICE)
                         and x.pricingInfos.businessType == "SALE"
                         and (x.usableAreas == 0 or x.squareMeterPrice > 3500))]
 
@@ -12,7 +16,7 @@ def listings_zap_filter(listings):
 def listings_vivareal_filter(listings):
     zap_listings = remove_listings_without_location_filter(listings)
     vivareal = [x for x in zap_listings if (int(x.pricingInfos.price) <= 4000
-                                        and x.pricingInfos.businessType == "RENTAL")
+                                            and x.pricingInfos.businessType == "RENTAL")
                 or (int(x.pricingInfos.price) <= 700000
                     and x.pricingInfos.businessType == "SALE")]
 

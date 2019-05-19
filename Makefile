@@ -12,3 +12,6 @@ migrate:
 shell:
 	@echo Opening Django shell...
 	env/bin/python3 listingsapi/manage.py shell
+updaterequirements:
+	@echo Update requirements...
+	env/bin/pip3 install -r listingsapi/requirements.txt

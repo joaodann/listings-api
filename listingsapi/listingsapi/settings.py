@@ -109,6 +109,14 @@ STATIC_URL = '/static/'
 
 LISTINGS_URL = 'http://grupozap-code-challenge.s3-website-us-east-1.amazonaws.com/sources/source-2.json'
 
+ZAP_BBOX_MIN_LATITUDE = config('ZAP_BBOX_MIN_LATITUDE')
+
+ZAP_BBOX_MIN_LONGITUDE = config('ZAP_BBOX_MIN_LONGITUDE')
+
+ZAP_BBOX_MAX_LATITUDE = config('ZAP_BBOX_MAX_LATITUDE')
+
+ZAP_BBOX_MAX_LONGITUDE = config('ZAP_BBOX_MAX_LONGITUDE')
+
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 

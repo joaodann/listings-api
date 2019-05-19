@@ -31,6 +31,16 @@ def create_object_Listing_for_sale_with_price_800000():
     listing.address.geoLocation.location.lon = 0.3233546
     return listing
 
+def create_object_Listing_for_sale_with_price_550000_inside_zap_area():
+    listing = models.Listing()
+    listing.usableAreas = 100
+    listing.pricingInfos.price = 550000
+    listing.id = "uk3"
+    listing.pricingInfos.businessType = "SALE"
+    listing.address.geoLocation.location.lat = -23.566583
+    listing.address.geoLocation.location.lon = -46.689920
+    return listing
+
 def create_object_Listing_for_sale_with_price_400000():
     listing = models.Listing()
     listing.usableAreas = 200
@@ -158,6 +168,23 @@ class FilterTest(TestCase):
 
     def test_filter_zap_squareMeter_with_square_meter_price_lower_than_3500(self):
         listing = create_object_Listing_for_sale_with_price_400000()
+        listings = [listing]
+        zap_filtered_listings = filters.listings_zap_filter(listings)
+
+        self.assert_(len(zap_filtered_listings) == 0)
+
+    ##zap inside zap area
+    def test_filter_inside_zap_area_with_price_greater_than_540000(self):
+        listing = create_object_Listing_for_sale_with_price_550000_inside_zap_area()
+        listings = [listing]
+        zap_filtered_listings = filters.listings_zap_filter(listings)
+
+        self.assert_(len(zap_filtered_listings) == 1)
+
+    def test_filter_outside_zap_area_with_price_greater_than_540000(self):
+        listing = create_object_Listing_for_sale_with_price_550000_inside_zap_area()
+        listing.address.geoLocation.location.lat = -23.628169
+        listing.address.geoLocation.location.lon = -46.864586
         listings = [listing]
         zap_filtered_listings = filters.listings_zap_filter(listings)
 

@@ -2,3 +2,4 @@ Django
 djangorestframework
 prettyconf
 requests
+shapely

@@ -1,14 +1,23 @@
-import os
 import requests
 import json
-from collections import namedtuple
 import datetime
 from django.conf import settings
+from shapely.geometry import box
+from shapely.geometry import Point
 
 
 class Location:
     lon: float
     lat: float
+
+    @property
+    def isInsideZapGroupArea(self):
+        isInside = False
+        zapBoundingBox = box(float(settings.ZAP_BBOX_MIN_LATITUDE), float(settings.ZAP_BBOX_MIN_LONGITUDE), float(settings.ZAP_BBOX_MAX_LATITUDE), float(settings.ZAP_BBOX_MAX_LONGITUDE))
+        if (self.lat != 0 and self.lon != 0):
+            isInside = zapBoundingBox.contains(Point(self.lat, self.lon))
+
+        return isInside
 
 
 class GeoLocation:
