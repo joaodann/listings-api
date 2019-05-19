@@ -109,8 +109,15 @@ class Listing:
     @staticmethod
     def get_all():
         listings = []
-        json_data = requests.get(settings.LISTINGS_URL, verify=False, timeout=30).text
-        loaded_json = json.loads(json_data, object_hook=Listing.from_dict)
+        decodedJson = ""
+        json_data = requests.get(settings.LISTINGS_URL, verify=False, timeout=30, stream=True)
+        for line in json_data.iter_lines():
+            if line:
+                decoded_line = line.decode('utf-8')
+                decodedJson += decoded_line
+
+
+        loaded_json = json.loads(decodedJson, object_hook=Listing.from_dict)
         for listing_json in loaded_json:
             listings.append(listing_json)
 
