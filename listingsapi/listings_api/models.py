@@ -16,7 +16,7 @@ class GeoLocation:
     location: Location
 
     def __init__(self):
-        location = Location()
+        self.location = Location()
 
 
 class Address:
