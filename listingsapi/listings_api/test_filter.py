@@ -8,6 +8,7 @@ def create_object_Listing_for_rental_with_price_5000():
     listing.pricingInfos.price = 5000
     listing.id = "uk1"
     listing.pricingInfos.businessType = "RENTAL"
+    listing.pricingInfos.monthlyCondoFee = 0
     listing.address.geoLocation.location.lat = 0.445532
     listing.address.geoLocation.location.lon = 0.3233546
     return listing
@@ -16,7 +17,18 @@ def create_object_Listing_for_rental_with_price_2500():
     listing = models.Listing()
     listing.pricingInfos.price = 2500
     listing.pricingInfos.businessType = "RENTAL"
+    listing.pricingInfos.monthlyCondoFee = 0
     listing.id = "uk2"
+    listing.address.geoLocation.location.lat = 0.445532
+    listing.address.geoLocation.location.lon = 0.3233546
+    return listing
+
+def create_object_Listing_for_rental_with_price_1000_and_condo_fee_300():
+    listing = models.Listing()
+    listing.pricingInfos.price = 1000
+    listing.pricingInfos.businessType = "RENTAL"
+    listing.pricingInfos.monthlyCondoFee = 300
+    listing.id = "uk8"
     listing.address.geoLocation.location.lat = 0.445532
     listing.address.geoLocation.location.lon = 0.3233546
     return listing
@@ -189,3 +201,19 @@ class FilterTest(TestCase):
         zap_filtered_listings = filters.listings_zap_filter(listings)
 
         self.assert_(len(zap_filtered_listings) == 0)
+
+    ##vivareal condo fee
+    def test_filter_rental_with_condo_fee_equals_30_percent(self):
+        listing = create_object_Listing_for_rental_with_price_1000_and_condo_fee_300()
+        listings = [listing]
+        zap_filtered_listings = filters.listings_vivareal_filter(listings)
+
+        self.assert_(len(zap_filtered_listings) == 0)
+
+    def test_filter_rental_with_condo_fee_equals_29_percent(self):
+        listing = create_object_Listing_for_rental_with_price_1000_and_condo_fee_300()
+        listing.pricingInfos.monthlyCondoFee = 290
+        listings = [listing]
+        zap_filtered_listings = filters.listings_vivareal_filter(listings)
+
+        self.assert_(len(zap_filtered_listings) == 1)

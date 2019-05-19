@@ -10,15 +10,6 @@ class Location:
     lon: float
     lat: float
 
-    @property
-    def isInsideZapGroupArea(self):
-        isInside = False
-        zapBoundingBox = box(float(settings.ZAP_BBOX_MIN_LATITUDE), float(settings.ZAP_BBOX_MIN_LONGITUDE), float(settings.ZAP_BBOX_MAX_LATITUDE), float(settings.ZAP_BBOX_MAX_LONGITUDE))
-        if (self.lat != 0 and self.lon != 0):
-            isInside = zapBoundingBox.contains(Point(self.lat, self.lon))
-
-        return isInside
-
 
 class GeoLocation:
     precision: str
@@ -43,14 +34,6 @@ class PricingInfos:
     businessType: str
     monthlyCondoFee: int
 
-    @property
-    def monthlyCondoFeeRentalPercentage(self):
-        percentage = 0
-        if (self.monthlyCondoFee > 0 and self.businessType == "RENTAL"):
-            percentage = self.monthlyCondoFee * 100 / self.price
-
-        return percentage
-
 
 class Listing():
     usableAreas: int
@@ -71,9 +54,26 @@ class Listing():
     def squareMeterPrice(self):
         price = 0
         if (self.usableAreas > 0):
-            price = self.pricingInfos.price / self.usableAreas
+            price = int(self.pricingInfos.price) / int(self.usableAreas)
 
         return price
+
+    @property
+    def monthlyCondoFeeRentalPercentage(self):
+        percentage = 0
+        if (int(self.pricingInfos.monthlyCondoFee) > 0 and self.pricingInfos.businessType == "RENTAL"):
+            percentage = int(self.pricingInfos.monthlyCondoFee) * 100 / int(self.pricingInfos.price)
+
+        return percentage
+
+    @property
+    def isInsideZapGroupArea(self):
+        isInside = False
+        zapBoundingBox = box(float(settings.ZAP_BBOX_MIN_LATITUDE), float(settings.ZAP_BBOX_MIN_LONGITUDE), float(settings.ZAP_BBOX_MAX_LATITUDE), float(settings.ZAP_BBOX_MAX_LONGITUDE))
+        if (self.address.geoLocation.location.lat != 0 and self.address.geoLocation.location.lon != 0):
+            isInside = zapBoundingBox.contains(Point(self.address.geoLocation.location.lat, self.address.geoLocation.location.lon))
+
+        return isInside
 
     def __init__(self):
         self.pricingInfos = PricingInfos()
