@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+
 from prettyconf import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -87,7 +88,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -100,7 +100,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -116,6 +115,11 @@ ZAP_BBOX_MIN_LONGITUDE = config('ZAP_BBOX_MIN_LONGITUDE')
 ZAP_BBOX_MAX_LATITUDE = config('ZAP_BBOX_MAX_LATITUDE')
 
 ZAP_BBOX_MAX_LONGITUDE = config('ZAP_BBOX_MAX_LONGITUDE')
+
+ZAP_MIN_SALE_PRICE = int(config('ZAP_MIN_SALE_PRICE'))
+ZAP_MIN_RENTAL_PRICE = int(config('ZAP_MIN_RENTAL_PRICE'))
+VIVAREAL_MAX_SALE_PRICE = int(config('VIVAREAL_MAX_SALE_PRICE'))
+VIVAREAL_MAX_RENTAL_PRICE = int(config('VIVAREAL_MAX_RENTAL_PRICE'))
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
