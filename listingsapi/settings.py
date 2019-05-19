@@ -10,8 +10,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG")
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config("ALLOWED_HOSTS")
 
 # Application definition
 INSTALLED_APPS = [
