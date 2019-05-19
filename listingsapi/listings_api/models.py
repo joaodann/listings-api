@@ -1,9 +1,10 @@
-import requests
-import json
 import datetime
+import json
+
+import requests
 from django.conf import settings
-from shapely.geometry import box
 from shapely.geometry import Point
+from shapely.geometry import box
 
 
 class Location:
@@ -23,7 +24,7 @@ class Address:
     city: str
     neighborhood: str
     geoLocation: GeoLocation
-    
+
     def __init__(self):
         self.geoLocation = GeoLocation()
 
@@ -69,9 +70,11 @@ class Listing():
     @property
     def isInsideZapGroupArea(self):
         isInside = False
-        zapBoundingBox = box(float(settings.ZAP_BBOX_MIN_LATITUDE), float(settings.ZAP_BBOX_MIN_LONGITUDE), float(settings.ZAP_BBOX_MAX_LATITUDE), float(settings.ZAP_BBOX_MAX_LONGITUDE))
+        zapBoundingBox = box(float(settings.ZAP_BBOX_MIN_LATITUDE), float(settings.ZAP_BBOX_MIN_LONGITUDE),
+                             float(settings.ZAP_BBOX_MAX_LATITUDE), float(settings.ZAP_BBOX_MAX_LONGITUDE))
         if (self.address.geoLocation.location.lat != 0 and self.address.geoLocation.location.lon != 0):
-            isInside = zapBoundingBox.contains(Point(self.address.geoLocation.location.lat, self.address.geoLocation.location.lon))
+            isInside = zapBoundingBox.contains(
+                Point(self.address.geoLocation.location.lat, self.address.geoLocation.location.lon))
 
         return isInside
 
@@ -91,7 +94,6 @@ class Listing():
         json_data = requests.get(settings.LISTINGS_URL).text
         loaded_json = json.loads(json_data, object_hook=Listing.from_dict)
         for listing_json in loaded_json:
-
             listings.append(listing_json)
 
         return listings

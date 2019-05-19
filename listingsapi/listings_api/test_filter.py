@@ -28,7 +28,7 @@ def create_object_Listing_for_rental_with_price_1000_and_condo_fee_300():
     listing.pricingInfos.price = 1000
     listing.pricingInfos.businessType = "RENTAL"
     listing.pricingInfos.monthlyCondoFee = 300
-    listing.id = "uk8"
+    listing.id = "uk3"
     listing.address.geoLocation.location.lat = 0.445532
     listing.address.geoLocation.location.lon = 0.3233546
     return listing
@@ -37,7 +37,7 @@ def create_object_Listing_for_sale_with_price_800000():
     listing = models.Listing()
     listing.usableAreas = 100
     listing.pricingInfos.price = 800000
-    listing.id = "uk3"
+    listing.id = "uk4"
     listing.pricingInfos.businessType = "SALE"
     listing.address.geoLocation.location.lat = 0.445532
     listing.address.geoLocation.location.lon = 0.3233546
@@ -47,7 +47,7 @@ def create_object_Listing_for_sale_with_price_550000_inside_zap_area():
     listing = models.Listing()
     listing.usableAreas = 100
     listing.pricingInfos.price = 550000
-    listing.id = "uk3"
+    listing.id = "uk5"
     listing.pricingInfos.businessType = "SALE"
     listing.address.geoLocation.location.lat = -23.566583
     listing.address.geoLocation.location.lon = -46.689920
@@ -58,9 +58,19 @@ def create_object_Listing_for_sale_with_price_400000():
     listing.usableAreas = 200
     listing.pricingInfos.price = 400000
     listing.pricingInfos.businessType = "SALE"
-    listing.id = "uk4"
+    listing.id = "uk6"
     listing.address.geoLocation.location.lat = 0.445532
     listing.address.geoLocation.location.lon = 0.3233546
+    return listing
+
+def create_object_Listing_for_rental_with_price_5000_inside_zap_area():
+    listing = models.Listing()
+    listing.usableAreas = 100
+    listing.pricingInfos.price = 5000
+    listing.id = "uk7"
+    listing.pricingInfos.businessType = "RENTAL"
+    listing.address.geoLocation.location.lat = -23.566583
+    listing.address.geoLocation.location.lon = -46.689920
     return listing
 
 
@@ -217,3 +227,20 @@ class FilterTest(TestCase):
         zap_filtered_listings = filters.listings_vivareal_filter(listings)
 
         self.assert_(len(zap_filtered_listings) == 1)
+
+    ##vivareal inside zap area
+    def test_filter_vivareal_inside_zap_area_with_price_greater_than_540000(self):
+        listing = create_object_Listing_for_rental_with_price_5000_inside_zap_area()
+        listings = [listing]
+        zap_filtered_listings = filters.listings_vivareal_filter(listings)
+
+        self.assert_(len(zap_filtered_listings) == 1)
+
+    def test_filter_vivareal_outside_zap_area_with_price_greater_than_540000(self):
+        listing = create_object_Listing_for_rental_with_price_5000_inside_zap_area()
+        listing.address.geoLocation.location.lat = -23.628169
+        listing.address.geoLocation.location.lon = -46.864586
+        listings = [listing]
+        zap_filtered_listings = filters.listings_vivareal_filter(listings)
+
+        self.assert_(len(zap_filtered_listings) == 0)
