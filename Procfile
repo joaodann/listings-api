@@ -1,1 +1,1 @@
-web: gunicorn listings_api.wsgi
+web: gunicorn listingsapi.wsgi
