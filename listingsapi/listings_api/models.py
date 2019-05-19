@@ -50,6 +50,14 @@ class Listing():
     bedrooms: int
     pricingInfos: PricingInfos
 
+    @property
+    def squareMeterPrice(self):
+        price = 0
+        if (self.usableAreas > 0):
+            price = self.pricingInfos.price / self.usableAreas
+
+        return price
+
     def __init__(self):
         self.pricingInfos = PricingInfos()
         self.address = Address()
