@@ -43,6 +43,14 @@ class PricingInfos:
     businessType: str
     monthlyCondoFee: int
 
+    @property
+    def monthlyCondoFeeRentalPercentage(self):
+        percentage = 0
+        if (self.monthlyCondoFee > 0 and self.businessType == "RENTAL"):
+            percentage = self.monthlyCondoFee * 100 / self.price
+
+        return percentage
+
 
 class Listing():
     usableAreas: int
