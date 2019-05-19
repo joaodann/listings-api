@@ -23,6 +23,7 @@ def create_object_Listing_for_rental_with_price_2500():
 
 def create_object_Listing_for_sale_with_price_800000():
     listing = models.Listing()
+    listing.usableAreas = 100
     listing.pricingInfos.price = 800000
     listing.id = "uk3"
     listing.pricingInfos.businessType = "SALE"
@@ -32,6 +33,7 @@ def create_object_Listing_for_sale_with_price_800000():
 
 def create_object_Listing_for_sale_with_price_400000():
     listing = models.Listing()
+    listing.usableAreas = 200
     listing.pricingInfos.price = 400000
     listing.pricingInfos.businessType = "SALE"
     listing.id = "uk4"
@@ -137,3 +139,26 @@ class FilterTest(TestCase):
         zap_filtered_listings = filters.remove_listings_without_location_filter(listings)
 
         self.assert_(len(zap_filtered_listings) == 1)
+
+    ##zap squareMeterPrice validation
+    def test_filter_zap_squareMeter_without_usableAreas(self):
+        listing = create_object_Listing_for_sale_with_price_800000()
+        listing.usableAreas = 0
+        listings = [listing]
+        zap_filtered_listings = filters.listings_zap_filter(listings)
+
+        self.assert_(len(zap_filtered_listings) == 1)
+
+    def test_filter_zap_squareMeter_with_square_meter_price_greater_than_3500(self):
+        listing = create_object_Listing_for_sale_with_price_800000()
+        listings = [listing]
+        zap_filtered_listings = filters.listings_zap_filter(listings)
+
+        self.assert_(len(zap_filtered_listings) == 1)
+
+    def test_filter_zap_squareMeter_with_square_meter_price_lower_than_3500(self):
+        listing = create_object_Listing_for_sale_with_price_400000()
+        listings = [listing]
+        zap_filtered_listings = filters.listings_zap_filter(listings)
+
+        self.assert_(len(zap_filtered_listings) == 0)

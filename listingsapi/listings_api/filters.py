@@ -3,7 +3,8 @@ def listings_zap_filter(listings):
     zap_listings = [x for x in zap_listings if (int(x.pricingInfos.price) >= 3500
                                             and x.pricingInfos.businessType == "RENTAL")
                     or (int(x.pricingInfos.price) >= 600000
-                        and x.pricingInfos.businessType == "SALE")]
+                        and x.pricingInfos.businessType == "SALE"
+                        and (x.usableAreas == 0 or x.squareMeterPrice > 3500))]
 
     return zap_listings
 
