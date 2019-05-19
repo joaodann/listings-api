@@ -14,8 +14,12 @@ import os
 
 from prettyconf import config
 
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -47,6 +51,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = "listingsapi.urls"
@@ -103,7 +109,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-ZAP_URL = "http://grupozap-code-challenge.s3-website-us-east-1.amazonaws.com/sources/source-2.json"
+LISTINGS_URL = "http://grupozap-code-challenge.s3-website-us-east-1.amazonaws.com/sources/source-2.json"
 
 ZAP_BBOX_MIN_LATITUDE = config("ZAP_BBOX_MIN_LATITUDE")
 
