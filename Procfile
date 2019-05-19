@@ -1,1 +1,1 @@
-web: gunicorn listingsapi.wsgi --pythonpath ../listingsapi
+web: gunicorn listingsapi.wsgi

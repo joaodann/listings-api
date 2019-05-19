@@ -1,17 +1,17 @@
 run:
 	@echo Running server at localhost:8000
-	env/bin/python3 listingsapi/manage.py runserver
+	env/bin/python3 manage.py runserver
 test:
 	@echo Preparing to run tests
-	env/bin/python3 listingsapi/manage.py test listings_api
+	env/bin/python3 manage.py test listings_api
 migrate:
 	@echo Creating necessary migrations...
-	env/bin/python3 listingsapi/manage.py makemigrations
+	env/bin/python3 manage.py makemigrations
 	@echo Applying migrations...
-	env/bin/python3 listingsapi/manage.py migrate
+	env/bin/python3 manage.py migrate
 shell:
 	@echo Opening Django shell...
-	env/bin/python3 listingsapi/manage.py shell
+	env/bin/python3 manage.py shell
 updaterequirements:
 	@echo Update requirements...
 	env/bin/pip3 install -r requirements.txt
