@@ -14,7 +14,7 @@ Talvez vocês encontrem características de outras linguagens em alguns códigos
 cuidar ao máximo.
 
 
-##A API
+## A API
 ```python
 BASE_URL = "https://zap-listings-api.herokuapp.com/"
 ```
@@ -28,74 +28,81 @@ desafio para o portal Zap.
 * `listings/?portal=vivareal` : Obtem uma lista com todos os anúncios que atendam as regras 
 do desafio para o portal VivaReal.
 
-##Escolhas de implementação
-###Stack e frameworks
+## Escolhas de implementação
+### Stack e frameworks
 Escolhi utilizar a stack Python + Django + DRF. 
 Com ele pronto talvez possa parecer um pouco de exagero em termos de framework para as 
 regras solicitadas. 
 No entanto, uma API de anúncios com certeza novas funcionalidades e abstrações seram 
 implementadas (afinal era para fazer um sistema production ready né :p).
 
-###Heroku
+### Heroku
 Apesar de não ser um requisito queria deixar a aplicação publicada no Heroku. 
 Isso exigiu que o request feito ao Json exemplo precisasse rodar em backgroud, 
 devido as limitações do host.
 
-###Estrutura do projeto
+### Estrutura do projeto
 A estrutura tentei seguir ao máximo o padrão do Django. 
 Meu intuito inicial foi sobrescever as Models Django e ao invés de obter de um banco de dados 
 utilizar o json.
 No fim, fazer dessa forma ficou muito complexo e precisaria sobrescrever muitas funções do Django.
 
 
-###Cache
+### Cache
 Implementar cache em uma api nem sempre é a escolha mais sábia. 
 Nesse caso, o problema me "obrigava" a obter os dados da url fornecida 
 criei um cache em memória (com uma váriavel global, podia utilizar qualquer outra forma) para
 tornar a navegação mais fluída.
 
+### Configuração
+Visando atender os principios do 12-factor utilizei a biblioteca prettyconf para facilitar esse processo.
 
-## Tutorial de Instalação e execução
-### Instalação
 
-```bash
-$ git clone 'git@github.com:joaodann/listings-api.git'
-$ cd listings-api
-$ # Ative o virtual env com a ferramenta de sua escolha /venv
-$ virtualenv env -p python3
-$ source env/bin/activate
-$ # /venv
-$ pip3 install -r requirements.txt
-```
+Inclui o arquivo .env para facilitar a instalação mas ele não devia estar completo. (principalmente o SECRET_KEY do django, que foi alterado no ambiente de produção adicionando uma váriavel de ambiente no heroku).
 
-### Teste
-
-```bash
-$ cd listings-api
-$ make test
-```
-
-### Executar local
-
-```bash
-$ cd listings-api
-$ make run
-```
-
-### Publicar
-
-```bash
-$ cd listings-api
-$ make deploy
-```
 
 ## Ambiente de Desenvolvimento
 
 * Laptop MacbookAir i5 8gb MacOS
 * macOS Mojave;
 * Pycharm;
-* Python (latest version);
+* Python (3.7.3);
 * virtualenv;
+
+
+## Tutorial de Instalação e execução
+### Instalação
+
+```bash
+$ git clone https://github.com/joaodann/listings-api.git
+$ cd listings-api
+$ # Ative o virtual env com a ferramenta de sua escolha /venv
+$ virtualenv env -p python3
+$ source env/bin/activate
+$ # /venv
+$ make updaterequirements
+```
+
+### Teste
+
+```bash
+# No diretório da aplicação
+$ make test
+```
+
+### Executar local
+
+```bash
+# No diretório da aplicação
+$ make run
+```
+
+### Publicar
+
+```bash
+# No diretório da aplicação
+$ make deploy
+```
 
 
 ## Histórico de commit

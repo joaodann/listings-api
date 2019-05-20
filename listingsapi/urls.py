@@ -2,6 +2,7 @@ import requests
 import asyncio
 import json
 import threading
+import sys
 from django.conf.urls import url
 from django.urls import include, path
 from rest_framework.urlpatterns import format_suffix_patterns
@@ -18,7 +19,6 @@ def loop_in_thread(loop):
 
 @asyncio.coroutine
 def json_load():
-    print("start jsonload")
     decoded_json = ""
     json_data = requests.get(
         settings.LISTINGS_URL, verify=False, timeout=30, stream=True
@@ -27,7 +27,6 @@ def json_load():
         if line:
             decoded_line = line.decode("utf-8")
             decoded_json += decoded_line
-            print("loop jsonload")
 
     json_decoded = json.loads(
         decoded_json, object_hook=models.Listing.from_dict
@@ -46,7 +45,9 @@ urlpatterns = [
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
-# thread do get json data
-loop = asyncio.get_event_loop()
-t = threading.Thread(target=loop_in_thread, args=(loop,))
-t.start()
+
+if sys.argv[1:2] != ['test']:
+    # thread do get json data
+    loop = asyncio.get_event_loop()
+    t = threading.Thread(target=loop_in_thread, args=(loop,))
+    t.start()

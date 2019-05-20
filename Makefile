@@ -3,7 +3,7 @@ run:
 	env/bin/python3 manage.py runserver
 test:
 	@echo Preparing to run tests
-	env/bin/python3 manage.py test listings_api
+	env/bin/python3 manage.py test listings_api -k
 migrate:
 	@echo Creating necessary migrations...
 	env/bin/python3 manage.py makemigrations
