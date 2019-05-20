@@ -1,10 +1,8 @@
 import datetime
-import json
-
-import requests
 from django.conf import settings
 from shapely.geometry import Point
 from shapely.geometry import box
+from listings_api import cache
 
 
 class Location:
@@ -109,16 +107,9 @@ class Listing:
     @staticmethod
     def get_all():
         listings = []
-        decodedJson = ""
-        json_data = requests.get(settings.LISTINGS_URL, verify=False, timeout=30, stream=True)
-        for line in json_data.iter_lines():
-            if line:
-                decoded_line = line.decode('utf-8')
-                decodedJson += decoded_line
 
-
-        loaded_json = json.loads(decodedJson, object_hook=Listing.from_dict)
-        for listing_json in loaded_json:
-            listings.append(listing_json)
+        if (cache.is_file_complete()):
+            for listing_json in cache.use_cache():
+                listings.append(listing_json)
 
         return listings

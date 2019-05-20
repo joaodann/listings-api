@@ -6,3 +6,4 @@ shapely
 black
 gunicorn
 whitenoise
+asyncio
