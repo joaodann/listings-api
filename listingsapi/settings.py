@@ -37,6 +37,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "listingsapi.urls"
 
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'listings_api.utils.custom_exception_handler.custom_exception_handler'
+}
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",

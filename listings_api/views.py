@@ -3,12 +3,11 @@ from listings_api.serializers import ListingsSerializer
 from listings_api.pagination import ListingsPagination
 from listings_api import cache
 from listings_api import filters
+from listings_api.utils.custom_exception_handler import ServiceUnavailable
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework import status
 from rest_framework import generics
-from rest_framework.exceptions import APIException
 
 
 @api_view(["GET"])
@@ -18,19 +17,12 @@ def api_root(request, format=None):
     )
 
 
-class ServiceUnavailable(APIException):
-    status_code = 503
-    default_detail = 'Service temporarily unavailable, try again later.'
-    default_code = 'service_unavailable'
-    headers = {'Retry-Later', '120'}
-
-
 class ListingsView(generics.ListAPIView):
     serializer_class = ListingsSerializer
     pagination_class = ListingsPagination
 
     def get_queryset(self):
-        if (not cache.is_file_complete()):
+        if not cache.is_file_complete():
             raise ServiceUnavailable()
 
         listings = Listing.get_all()
