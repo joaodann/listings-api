@@ -21,3 +21,5 @@ black:
 flake8:
 	@echo run flake8...
 	env/bin/flake8 listingsapi
+deploy:
+	git push heroku master
