@@ -18,16 +18,20 @@ def loop_in_thread(loop):
 
 @asyncio.coroutine
 def json_load():
-    print ("start jsonload")
+    print("start jsonload")
     decoded_json = ""
-    json_data = requests.get(settings.LISTINGS_URL, verify=False, timeout=30, stream=True)
+    json_data = requests.get(
+        settings.LISTINGS_URL, verify=False, timeout=30, stream=True
+    )
     for line in json_data.iter_lines():
         if line:
-            decoded_line = line.decode('utf-8')
+            decoded_line = line.decode("utf-8")
             decoded_json += decoded_line
-            print ("loop jsonload")
+            print("loop jsonload")
 
-    json_decoded = json.loads(decoded_json, object_hook=models.Listing.from_dict)
+    json_decoded = json.loads(
+        decoded_json, object_hook=models.Listing.from_dict
+    )
     cache.create_cache(json_decoded)
 
 
@@ -42,7 +46,7 @@ urlpatterns = [
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
-#thread do get json data
+# thread do get json data
 loop = asyncio.get_event_loop()
 t = threading.Thread(target=loop_in_thread, args=(loop,))
 t.start()

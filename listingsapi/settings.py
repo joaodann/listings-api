@@ -3,10 +3,10 @@ import os
 from prettyconf import config
 
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG")
@@ -31,14 +31,14 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "listingsapi.urls"
 
 REST_FRAMEWORK = {
-    'EXCEPTION_HANDLER': 'listings_api.utils.custom_exception_handler.custom_exception_handler'
+    "EXCEPTION_HANDLER": "listings_api.utils.custom_exception_handler.custom_exception_handler"
 }
 
 TEMPLATES = [
